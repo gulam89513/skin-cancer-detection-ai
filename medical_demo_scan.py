@@ -1,15 +1,13 @@
 import streamlit as st
 st.set_page_config(page_title="MediScan AI", page_icon="🏥", layout="wide")
-# --- HIDE STREAMLIT WATERMARK ---
-# --- ADVANCED HIDE STYLE ---
+
+# --- HIDE STREAMLIT BRANDING ---
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
-            /* This part tries to hide the 'Hosted by' tag */
-            .viewerBadge_container__1QSob {display: none !important;}
-            .stAppDeployButton {display: none !important;}
+            .stApp > header {display: none;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
@@ -246,6 +244,7 @@ with tab_help:
     st.markdown("---")
 
     st.warning("⚠️ **IMPORTANT:** Do not attempt to self-treat based on this AI analysis. Always seek professional medical validation.")
+
 
 
 
