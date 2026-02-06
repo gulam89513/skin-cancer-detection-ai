@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(page_title="MediScan AI", page_icon="🔬")
 # --- HIDE STREAMLIT WATERMARK ---
 # --- ADVANCED HIDE STYLE ---
 hide_st_style = """
@@ -245,4 +246,5 @@ with tab_help:
     st.markdown("---")
 
     st.warning("⚠️ **IMPORTANT:** Do not attempt to self-treat based on this AI analysis. Always seek professional medical validation.")
+
 
