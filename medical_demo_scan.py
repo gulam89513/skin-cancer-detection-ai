@@ -1,10 +1,14 @@
 import streamlit as st
 # --- HIDE STREAMLIT WATERMARK ---
+# --- ADVANCED HIDE STYLE ---
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
+            /* This part tries to hide the 'Hosted by' tag */
+            .viewerBadge_container__1QSob {display: none !important;}
+            .stAppDeployButton {display: none !important;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
@@ -241,3 +245,4 @@ with tab_help:
     st.markdown("---")
 
     st.warning("⚠️ **IMPORTANT:** Do not attempt to self-treat based on this AI analysis. Always seek professional medical validation.")
+
