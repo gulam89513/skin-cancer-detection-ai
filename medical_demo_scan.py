@@ -1,5 +1,4 @@
 import streamlit as st
-st.set_page_config(page_title="MediScan AI", page_icon="🏥", layout="wide")
 
 # --- HIDE STREAMLIT BRANDING ---
 hide_st_style = """
@@ -107,9 +106,14 @@ with st.sidebar:
     st.info("ℹ️ **Privacy Note:** \nYour images are processed locally in memory and are not saved to any server.")
 
 # --- 6. MAIN INTERFACE ---
-st.title("🩺 AI Skin Lesion Analysis System")
+st.title("🩺 AI Skin Detection (Dev by Gulam)")
+# Updated with 'rgba' background and explicit text color for visibility
 st.markdown("""
-<div style='background-color: #e3f2fd; padding: 15px; border-radius: 10px; border-left: 5px solid #2196f3;'>
+<div style='background-color: rgba(33, 150, 243, 0.1); 
+            padding: 15px; 
+            border-radius: 10px; 
+            border-left: 5px solid #2196f3; 
+            color: inherit;'>
     <strong>CLINICAL DISCLAIMER:</strong> This tool utilizes Artificial Intelligence to screen for potential skin pathologies. 
     It is intended for <strong>educational and screening purposes only</strong>. It does <strong>NOT</strong> replace a professional biopsy or diagnosis by a certified dermatologist.
 </div>
@@ -244,6 +248,7 @@ with tab_help:
     st.markdown("---")
 
     st.warning("⚠️ **IMPORTANT:** Do not attempt to self-treat based on this AI analysis. Always seek professional medical validation.")
+
 
 
 
