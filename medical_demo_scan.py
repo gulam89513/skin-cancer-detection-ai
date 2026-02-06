@@ -1,4 +1,14 @@
 import streamlit as st
+# --- HIDE STREAMLIT WATERMARK ---
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 from transformers import pipeline
 from PIL import Image
 import pandas as pd
@@ -229,4 +239,5 @@ with tab_help:
         st.success("Redirecting to Google Maps...")
     
     st.markdown("---")
+
     st.warning("⚠️ **IMPORTANT:** Do not attempt to self-treat based on this AI analysis. Always seek professional medical validation.")
