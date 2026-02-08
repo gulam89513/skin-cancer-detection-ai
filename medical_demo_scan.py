@@ -186,9 +186,10 @@ with tab_scan:
                 with st.expander("💊 Medical Treatment & Cure"):
                     st.info(info['treatment'])
 
-                # --- ACTION PLAN BOX ---
+                # --- ACTION PLAN BOX (FIXED FOR DARK MODE) ---
+                # Added 'color: black;' to ensure text is visible on the light gray background
                 st.markdown(f"""
-                <div style='background-color: #f0f2f6; padding: 15px; border-radius: 10px; border-left: 5px solid #ff4b4b;'>
+                <div style='background-color: #f0f2f6; color: #000000; padding: 15px; border-radius: 10px; border-left: 5px solid #ff4b4b;'>
                     <strong>RECOMMENDED ACTION PLAN:</strong><br>
                     {info['action']}
                 </div>
@@ -236,4 +237,4 @@ with tab_help:
     st.write("Locate the nearest Board-Certified Dermatologist.")
     
     if st.button("🔍 Find Dermatologist Near Me (Google Maps)"):
-        webbrowser.open_new_tab("https://www.google.com/maps/search/dermatologist+near+me/")
+        webbrowser.open_new_tab("http://googleusercontent.com/maps.google.com/search?q=dermatologist+near+me")
