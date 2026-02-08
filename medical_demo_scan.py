@@ -5,8 +5,7 @@ import pandas as pd
 import webbrowser
 import time
 
-# --- 1. PROFESSIONAL PAGE CONFIGURATION ---
-# Note: st.set_page_config must be the very first Streamlit command
+# --- 1. PAGE CONFIGURATION (Must be the very first command) ---
 st.set_page_config(
     page_title="MediScan AI | Clinical Decision Support",
     page_icon="⚕️",
@@ -14,16 +13,15 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. HIDE STREAMLIT BRANDING ---
-hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            .stApp > header {display: none;}
-            </style>
-            """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+# --- 2. HIDE BRANDING ---
+st.markdown("""
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .stApp > header {display: none;}
+    </style>
+""", unsafe_allow_html=True)
 
 # --- 3. MEDICAL KNOWLEDGE BASE ---
 MEDICAL_DB = {
@@ -81,36 +79,42 @@ MEDICAL_DB = {
 # --- 4. MODEL LOADING ---
 @st.cache_resource
 def load_model():
-    # Loading the specified HuggingFace model
     return pipeline("image-classification", model="Anwarkh1/Skin_Cancer-Image_Classification")
 
-# --- 5. SIDEBAR ---
+# --- 5. SIDEBAR NAVIGATION (Permanent Menu) ---
 with st.sidebar:
     st.title("🏥 MediScan AI")
-    st.caption("Professional Dermatological Assistant")
-    st.markdown("---")
+    st.caption("Developed by Gulam")
+    st.divider()
+    
+    # This keeps the options visible at all times
+    menu_selection = st.radio(
+        "Navigation Menu",
+        ["🔍 Patient Scan", "📚 Medical Dictionary", "🚑 Emergency Help"],
+        index=0
+    )
+    
+    st.divider()
     st.subheader("⚙️ Analysis Controls")
     confidence_threshold = st.slider("Sensitivity Threshold (%)", 0, 100, 30)
-    st.info("ℹ️ **Privacy:** Images processed locally and not stored.")
+    st.info("ℹ️ Privacy: Images are processed in memory and not saved.")
 
-# --- 6. MAIN INTERFACE ---
-st.title("🩺 AI Skin Detection")
-st.markdown("""
-<div style='background-color: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px; border-left: 5px solid #2196f3;'>
-    <strong>CLINICAL DISCLAIMER:</strong> For educational purposes only. Does NOT replace a professional diagnosis.
-</div>
-""", unsafe_allow_html=True)
+# --- 6. PAGE LOGIC ---
 
-tab_scan, tab_info, tab_help = st.tabs(["🔍 Patient Scan", "📚 Medical Dictionary", "🚑 Emergency/Help"])
-
-# --- TAB 1: SCANNER ---
-with tab_scan:
+# --- PAGE 1: SCANNER ---
+if menu_selection == "🔍 Patient Scan":
+    st.title("🩺 AI Skin Detection")
+    st.markdown("""
+    <div style='background-color: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px; border-left: 5px solid #2196f3;'>
+        <strong>CLINICAL DISCLAIMER:</strong> For educational purposes only. Does NOT replace a professional diagnosis.
+    </div>
+    """, unsafe_allow_html=True)
+    
     col_input, col_results = st.columns([1, 1.5])
 
     with col_input:
         st.subheader("1. Specimen Acquisition")
         source = st.radio("Input Source:", ["Upload File", "Live Camera"], horizontal=True)
-        
         img_file = st.file_uploader("Upload image", type=['png', 'jpg', 'jpeg']) if source == "Upload File" else st.camera_input("Capture")
 
         if img_file:
@@ -132,9 +136,9 @@ with tab_scan:
             
             info = MEDICAL_DB.get(label, MEDICAL_DB["Vascular Lesions"])
             
-            if info['severity'] == "critical": st.error(f"⚠️ {label.upper()}")
-            elif info['severity'] == "high": st.warning(f"⚠️ {label.upper()}")
-            else: st.success(f"✅ {label.upper()}")
+            if info['severity'] == "critical": st.error(f"⚠️ DETECTION: {label.upper()}")
+            elif info['severity'] == "high": st.warning(f"⚠️ DETECTION: {label.upper()}")
+            else: st.success(f"✅ DETECTION: {label.upper()}")
 
             st.metric("Confidence Score", f"{score:.2f}%")
             
@@ -148,20 +152,28 @@ with tab_scan:
             ])
             st.bar_chart(chart_data.set_index("Condition"))
         else:
-            st.info("Upload an image to see the report.")
+            st.info("Upload or capture an image to see the report.")
 
-# --- TAB 2: DICTIONARY ---
-with tab_info:
-    st.header("Medical Knowledge Base")
+# --- PAGE 2: DICTIONARY ---
+elif menu_selection == "📚 Medical Dictionary":
+    st.title("📚 Medical Knowledge Base")
+    st.write("Browse the database of skin conditions.")
+    
     selected = st.selectbox("Select Condition:", list(MEDICAL_DB.keys()))
     data = MEDICAL_DB[selected]
+    
+    st.divider()
     st.subheader(selected)
     st.write(f"**Definition:** {data['description']}")
-    st.write(f"**Causes:** {data['causes']}")
-    st.info(f"**Treatment:** {data['treatment']}")
+    if "causes" in data: st.write(f"**Causes:** {data['causes']}")
+    if "treatment" in data: st.info(f"**Standard Treatment:** {data['treatment']}")
+    st.warning(f"**Recommended Action:** {data['action']}")
 
-# --- TAB 3: EMERGENCY ---
-with tab_help:
-    st.header("Find a Specialist")
+# --- PAGE 3: EMERGENCY ---
+elif menu_selection == "🚑 Emergency Help":
+    st.title("🚑 Find Assistance")
+    st.write("If you received a High or Critical risk result, please find a specialist immediately.")
+    
     if st.button("🔍 Open Google Maps for Dermatologists"):
-        webbrowser.open_new_tab("https://www.google.com/maps/search/dermatologist")
+        webbrowser.open_new_tab("https://www.google.com/maps/search/dermatologist+near+me")
+        st.success("Redirecting to Google Maps...")
