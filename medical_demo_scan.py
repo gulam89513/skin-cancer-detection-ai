@@ -97,7 +97,7 @@ with st.sidebar:
 
 # --- 5. MAIN INTERFACE ---
 st.title("🏥 Skin Disease Detection")
-st.caption("Advanced AI Dermatological Screening")
+st.caption("Developed by Gulam N Chabbi")
 
 tab_scan, tab_dict, tab_help = st.tabs(["🔍 Clinical Scanner", "📚 Disease Encyclopedia", "🚑 Specialist Locator"])
 
@@ -214,3 +214,4 @@ with tab_help:
     st.write("Locate the nearest Board-Certified Dermatologist.")
     if st.button("🔍 Find Dermatologist Near Me (Google Maps)"):
         webbrowser.open_new_tab("http://googleusercontent.com/maps.google.com/search?q=dermatologist+near+me")
+
