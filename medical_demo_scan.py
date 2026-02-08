@@ -5,7 +5,7 @@ import pandas as pd
 import webbrowser
 import time
 
-# --- 1. PAGE CONFIGURATION (Must be the very first command) ---
+# --- 1. PAGE CONFIGURATION (MUST BE FIRST) ---
 st.set_page_config(
     page_title="MediScan AI | Clinical Decision Support",
     page_icon="⚕️",
@@ -81,13 +81,12 @@ MEDICAL_DB = {
 def load_model():
     return pipeline("image-classification", model="Anwarkh1/Skin_Cancer-Image_Classification")
 
-# --- 5. SIDEBAR NAVIGATION (Permanent Menu) ---
+# --- 5. SIDEBAR NAVIGATION ---
 with st.sidebar:
     st.title("🏥 MediScan AI")
     st.caption("Developed by Gulam")
     st.divider()
     
-    # This keeps the options visible at all times
     menu_selection = st.radio(
         "Navigation Menu",
         ["🔍 Patient Scan", "📚 Medical Dictionary", "🚑 Emergency Help"],
@@ -145,7 +144,6 @@ if menu_selection == "🔍 Patient Scan":
             with st.expander("📖 Description", expanded=True): st.write(info['description'])
             with st.expander("🛡️ Action Plan"): st.write(info['action'])
             
-            # Probability Chart
             chart_data = pd.DataFrame([
                 {"Condition": r['label'].replace('_', ' ').title(), "Prob": r['score']*100} 
                 for r in results
@@ -157,8 +155,6 @@ if menu_selection == "🔍 Patient Scan":
 # --- PAGE 2: DICTIONARY ---
 elif menu_selection == "📚 Medical Dictionary":
     st.title("📚 Medical Knowledge Base")
-    st.write("Browse the database of skin conditions.")
-    
     selected = st.selectbox("Select Condition:", list(MEDICAL_DB.keys()))
     data = MEDICAL_DB[selected]
     
