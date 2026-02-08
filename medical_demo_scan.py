@@ -179,69 +179,7 @@ elif page == "🚑 Emergency Help":
     st.write("If you received a High or Critical risk result, please find a doctor immediately.")
     if st.button("🔍 Open Google Maps for Dermatologists"):
         webbrowser.open_new_tab("https://www.google.com/maps/search/dermatologist+near+me")
-    </style>
-    """, unsafe_allow_html=True)
-
-# --- 4. MODEL LOADING ---
-@st.cache_resource
-def load_model():
-    return pipeline("image-classification", model="Anwarkh1/Skin_Cancer-Image_Classification")
-
-# --- 5. SIDEBAR ---
-with st.sidebar:
-    st.title("🏥 MediScan AI")
-    st.caption("Professional Dermatological Assistant")
-    
-    st.markdown("---")
-    st.subheader("⚙️ Analysis Controls")
-    confidence_threshold = st.slider("Sensitivity Threshold (%)", 0, 100, 30, help="Minimum confidence required to display a result.")
-    
-    st.markdown("---")
-    st.info("ℹ️ **Privacy Note:** \nYour images are processed locally in memory and are not saved to any server.")
-
-# --- 6. MAIN INTERFACE ---
-st.title("🩺 AI Skin Detection (Dev by Gulam)")
-# Updated with 'rgba' background and explicit text color for visibility
-st.markdown("""
-<div style='background-color: rgba(33, 150, 243, 0.1); 
-            padding: 15px; 
-            border-radius: 10px; 
-            border-left: 5px solid #2196f3; 
-            color: inherit;'>
-    <strong>CLINICAL DISCLAIMER:</strong> This tool utilizes Artificial Intelligence to screen for potential skin pathologies. 
-    It is intended for <strong>educational and screening purposes only</strong>. It does <strong>NOT</strong> replace a professional biopsy or diagnosis by a certified dermatologist.
-</div>
-""", unsafe_allow_html=True)
-
-# Tabs
-tab_scan, tab_info, tab_help = st.tabs(["🔍 Patient Scan", "📚 Medical Dictionary", "🚑 Emergency/Help"])
-
-# --- TAB 1: SCANNER ---
-with tab_scan:
-    col_input, col_results = st.columns([1, 1.5])
-
-    # LEFT COLUMN: INPUT
-    with col_input:
-        st.subheader("1. Specimen Acquisition")
-        source = st.radio("Select Input Source:", ["Upload Image File", "Live Camera Capture"], horizontal=True)
-        
-        img_file = None
-        if source == "Upload Image File":
-            img_file = st.file_uploader("Upload dermatoscopic image", type=['png', 'jpg', 'jpeg'])
-        else:
-            img_file = st.camera_input("Capture lesion area")
-
-        if img_file:
-            img = Image.open(img_file)
-            st.image(img, caption="Loaded Specimen", use_container_width=True)
-            
-            # RUN BUTTON
-            if st.button("🚀 Initiate Analysis", type="primary"):
-                with st.spinner('Processing neural network layers...'):
-                    # Simulate processing time for "professional feel"
-                    time.sleep(1) 
-                    
-                    classifier = load_model()
+ad_model()
                     results = classifier(img)
                     
                     # Store results in session state to persist them
@@ -342,6 +280,7 @@ with tab_help:
     st.markdown("---")
 
     st.warning("⚠️ **IMPORTANT:** Do not attempt to self-treat based on this AI analysis. Always seek professional medical validation.")
+
 
 
 
