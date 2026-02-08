@@ -6,7 +6,7 @@ import webbrowser
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MediScan Pro | Advanced Dermatological Screening",
+    page_title="Skin Disease Detection  | developed by Gulam N Chabbi",
     page_icon="⚕️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -104,8 +104,8 @@ with st.sidebar:
         st.rerun()
 
 # --- 5. MAIN INTERFACE ---
-st.title("🏥 MediScan Pro")
-st.caption("Advanced AI Dermatological Screening System")
+st.title("🏥 Skin Disease Detection")
+st.caption(" developed by Gulam N Chabbi")
 
 tab_scan, tab_dict, tab_help = st.tabs(["🔍 Clinical Scanner", "📚 Disease Encyclopedia", "🚑 Specialist Locator"])
 
@@ -115,7 +115,7 @@ with tab_scan:
     
     with col1:
         st.subheader("1. Specimen Input")
-        st.info("📸 **Guidance:** Ensure the lesion is centered, well-lit, and in focus.")
+        st.info("📸 **Guidance:** Ensure the disease image is centered, well-lit, and in focus.")
         img_file = st.file_uploader("Upload Image", type=["jpg", "png", "jpeg"])
         
         if img_file:
@@ -238,3 +238,4 @@ with tab_help:
     
     if st.button("🔍 Find Dermatologist Near Me (Google Maps)"):
         webbrowser.open_new_tab("http://googleusercontent.com/maps.google.com/search?q=dermatologist+near+me")
+
