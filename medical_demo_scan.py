@@ -6,62 +6,76 @@ import webbrowser
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MediScan AI | Clinical Decision Support",
+    page_title="MediScan Pro | Advanced Dermatological Screening",
     page_icon="⚕️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- 2. FULL MEDICAL KNOWLEDGE BASE (RESTORED) ---
+# --- 2. ADVANCED MEDICAL DATABASE (Enhanced Accuracy & Details) ---
 MEDICAL_DB = {
     "Actinic Keratoses": {
         "severity": "high",
-        "description": "Also known as solar keratosis, this is a rough, scaly patch on the skin caused by years of sun exposure.",
-        "causes": "Long-term exposure to ultraviolet (UV) radiation from sunlight or tanning beds. It is considered a pre-cancerous condition.",
-        "treatment": "Treatments typically include Cryotherapy (freezing), topical creams (5-fluorouracil), or laser therapy to remove the damaged cells.",
-        "action": "⚠️ Consult a dermatologist. Untreated AKs can turn into squamous cell carcinoma."
+        "risk_label": "PRE-CANCEROUS / HIGH RISK",
+        "description": "A rough, scaly patch on the skin that develops from years of sun exposure. It is considered a precursor to skin cancer.",
+        "symptoms": "Rough, sandpaper-like texture; red, pink, or brown patches; itching or burning sensation.",
+        "causes": "☀️ **Root Cause:** Cumulative UV damage to DNA in skin cells from sunlight or tanning beds over many years.",
+        "treatment": "💊 **Medical Cure:** Cryotherapy (freezing with liquid nitrogen), topical chemotherapy creams (5-fluorouracil), or Photodynamic Therapy (PDT).",
+        "action": "⚠️ **URGENT:** Consult a dermatologist. If left untreated, 10-15% of these turn into Squamous Cell Carcinoma."
     },
     "Basal Cell Carcinoma": {
         "severity": "high",
-        "description": "A type of skin cancer that begins in the basal cells. It often appears as a slightly transparent bump on the skin.",
-        "causes": "Intense sun exposure and UV radiation. It is the most common form of skin cancer but rarely spreads to other parts of the body.",
-        "treatment": "Common treatments include surgical excision, Mohs surgery, or electrosurgery. Prognosis is generally excellent if treated early.",
-        "action": "🚨 Schedule a biopsy. While rarely fatal, it can cause significant local damage if ignored."
+        "risk_label": "MALIGNANT / HIGH RISK",
+        "description": "The most common form of skin cancer. It grows slowly and rarely spreads (metastasizes), but can destroy local tissue.",
+        "symptoms": "Pearly or waxy bump; flesh-colored or brown scar-like lesion; a bleeding or scabbing sore that heals and returns.",
+        "causes": "☀️ **Root Cause:** Intense, intermittent sun exposure causing DNA mutations in basal cells.",
+        "treatment": "💊 **Medical Cure:** Excision (cutting it out), Mohs Micrographic Surgery (highest cure rate), or Electrodessication and Curettage.",
+        "action": "🚨 **ACTION:** Schedule a biopsy. Early removal results in a 100% cure rate. Do not ignore."
     },
     "Benign Keratosis": {
         "severity": "low",
-        "description": "Often called Seborrheic Keratosis. These are non-cancerous skin growths that often appear with age.",
-        "causes": "The exact cause is unknown, but genetics and age play a role. They are NOT caused by sun exposure and are not contagious.",
-        "treatment": "No treatment is medically necessary. If they are irritated or for cosmetic reasons, they can be removed via cryotherapy.",
-        "action": "✅ Generally safe. Monitor for changes in shape or color, but usually no urgent action is needed."
+        "risk_label": "BENIGN / HARMLESS",
+        "description": "Also known as Seborrheic Keratosis. A non-cancerous skin growth that is very common in older adults.",
+        "symptoms": "Waxy, stuck-on appearance; distinct raised edges; color ranges from tan to black.",
+        "causes": "🧬 **Root Cause:** Genetic predisposition and aging. NOT caused by sun damage and NOT contagious.",
+        "treatment": "💊 **Medical Cure:** No treatment required. Can be removed using Cryotherapy or Electrocautery for cosmetic reasons.",
+        "action": "✅ **SAFE:** No action needed unless it becomes irritated or bleeds."
     },
     "Dermatofibroma": {
         "severity": "low",
-        "description": "A common, non-cancerous (benign) skin growth. It typically appears as a firm, small bump.",
-        "causes": "Often develops after a minor skin injury, such as a bug bite, splinter, or prick.",
-        "treatment": "Harmless and usually requires no treatment. Surgical removal is possible if it becomes painful.",
-        "action": "✅ Benign. No action needed unless the spot changes or bleeds."
+        "risk_label": "BENIGN / HARMLESS",
+        "description": "A common, non-cancerous skin growth that appears as a firm, localized nodule.",
+        "symptoms": "Firm to the touch; dimples inward when pinched; usually pink or brown.",
+        "causes": "🐜 **Root Cause:** Often an over-reaction to minor trauma, such as a bug bite, splinter, or shaving nick.",
+        "treatment": "💊 **Medical Cure:** Harmless. Surgical excision involves leaving a scar, so it is usually left alone unless painful.",
+        "action": "✅ **SAFE:** Monitor for size changes. No urgent care needed."
     },
     "Melanocytic Nevi": {
         "severity": "low",
-        "description": "Commonly known as a 'Mole'. It is a benign proliferation of melanocytes (pigment cells).",
-        "causes": "Caused by clusters of pigment cells. Most adults have between 10 and 40 common moles.",
-        "treatment": "No treatment needed for common moles. Removal is done only for cosmetic reasons or if cancer is suspected.",
-        "action": "✅ Monitor using the ABCDE rule. If it changes size/color, see a doctor."
+        "risk_label": "BENIGN / MONITOR REQUIRED",
+        "description": "Commonly known as a 'Mole'. A benign cluster of melanocytes (pigment-producing cells).",
+        "symptoms": "Uniform color (brown/black); round or oval shape; distinct border.",
+        "causes": "🧬 **Root Cause:** Genetic factors and sun exposure during childhood causes pigment cells to grow in clusters.",
+        "treatment": "💊 **Medical Cure:** Surgical removal only if suspected of changing into melanoma or for cosmetic reasons.",
+        "action": "🔍 **MONITOR:** Apply the 'ABCDE' Rule. If it changes in Asymmetry, Border, Color, Diameter, or Evolving, see a doctor."
     },
     "Melanoma": {
         "severity": "critical",
-        "description": "The most serious type of skin cancer. It develops in the cells (melanocytes) that produce melanin.",
-        "causes": "DNA damage from UV radiation (sun/tanning) triggers mutations. Genetics also play a significant role.",
-        "treatment": "Requires immediate surgical removal (wide local excision). Advanced stages may need immunotherapy, radiation, or chemotherapy.",
-        "action": "🚨 URGENT: See a dermatologist immediately for a biopsy. Early detection is life-saving."
+        "risk_label": "🔴 MALIGNANT / CRITICAL LIFE THREAT",
+        "description": "The most dangerous form of skin cancer. It develops in the cells (melanocytes) that produce melanin.",
+        "symptoms": "Asymmetrical shape; irregular borders; multiple colors (black, blue, red); diameter >6mm; evolving/changing over time.",
+        "causes": "☀️ **Root Cause:** Unrepaired DNA damage to skin cells (from UV rays) triggers mutations that lead to rapid multiplication.",
+        "treatment": "💊 **Medical Cure:** Wide Local Excision. Advanced stages require Immunotherapy, Targeted Therapy, or Radiation.",
+        "action": "🚨 **EMERGENCY:** SEE A DOCTOR IMMEDIATELY. Early detection is the only way to ensure survival."
     },
     "Vascular Lesions": {
         "severity": "low",
         "description": "Abnormalities of blood vessels or other vessels. Includes cherry angiomas or spider veins.",
-        "causes": "Can be congenital (birthmarks) or acquired due to aging, sun exposure, or hormonal changes.",
-        "treatment": "Laser therapy is the most common treatment for cosmetic removal.",
-        "action": "✅ Usually harmless. Consult a doctor if the lesion bleeds or grows rapidly."
+        "risk_label": "BENIGN / HARMLESS",
+        "symptoms": "Bright red, purple, or blue spots; blanch (turn white) when pressed.",
+        "causes": "🩸 **Root Cause:** Aging (Cherry Angiomas), hormonal changes (Pregnancy), or sun damage.",
+        "treatment": "💊 **Medical Cure:** Laser therapy (Vascular Laser) is the gold standard for removal.",
+        "action": "✅ **SAFE:** Usually harmless. Consult a doctor if the lesion bleeds extensively."
     }
 }
 
@@ -72,115 +86,154 @@ def load_model():
 
 # --- 4. SIDEBAR (CONTROLS) ---
 with st.sidebar:
-    st.title("⚙️ Analysis Controls")
+    st.title("⚙️ MediScan Controls")
     st.divider()
     
-    # FILTER: Default set to 50% to filter out "Books/Random Objects"
+    # Confidence Slider
     confidence_threshold = st.slider(
-        "Confidence Threshold (%)", 
-        0, 100, 50, 
-        help="If the AI is not sure (low score), it will refuse to diagnose. This helps filter out non-skin images."
+        "Accuracy Threshold (%)", 
+        0, 100, 40, 
+        help="Filters out low-quality or non-skin images. Higher settings require clearer photos."
     )
     
     st.divider()
     st.caption("Developed by Gulam")
     
-    # RESET BUTTON
-    if st.button("🔄 Reset App"):
+    if st.button("🔄 Reset Analysis"):
         st.session_state.clear()
         st.rerun()
 
 # --- 5. MAIN INTERFACE ---
-st.title("🏥 MediScan AI")
-tab_scan, tab_dict, tab_help = st.tabs(["🔍 Patient Scan", "📚 Medical Dictionary", "🚑 Emergency Help"])
+st.title("🏥 MediScan Pro")
+st.caption("Advanced AI Dermatological Screening System")
+
+tab_scan, tab_dict, tab_help = st.tabs(["🔍 Clinical Scanner", "📚 Disease Encyclopedia", "🚑 Specialist Locator"])
 
 # --- TAB 1: SCANNER ---
 with tab_scan:
-    st.subheader("🩺 AI Skin Detection")
-    st.info("⚠️ NOTE: This AI is designed for **SKIN ONLY**. Uploading objects (books, faces, cars) will result in errors or inconclusive results.")
-    
-    col1, col2 = st.columns([1, 1.2])
+    col1, col2 = st.columns([0.8, 1.2])
     
     with col1:
-        img_file = st.file_uploader("Upload lesion image", type=["jpg", "png", "jpeg"])
+        st.subheader("1. Specimen Input")
+        st.info("📸 **Guidance:** Ensure the lesion is centered, well-lit, and in focus.")
+        img_file = st.file_uploader("Upload Image", type=["jpg", "png", "jpeg"])
+        
         if img_file:
             img = Image.open(img_file)
-            st.image(img, use_container_width=True)
+            st.image(img, caption="Analyzed Specimen", use_container_width=True)
             
-            if st.button("🚀 Analyze Now", type="primary"):
-                with st.spinner("Analyzing neural network..."):
+            if st.button("🚀 Run Diagnostics", type="primary"):
+                with st.spinner("Processing Neural Network Layers..."):
                     model = load_model()
                     results = model(img)
                     st.session_state['results'] = results
 
     with col2:
+        st.subheader("2. Diagnostic Results")
+        
         if 'results' in st.session_state:
-            # Get the top result
-            top_result = st.session_state['results'][0]
-            score_percent = top_result['score'] * 100
-            label = top_result['label'].replace('_', ' ').title()
+            # Get Top Result
+            top = st.session_state['results'][0]
+            score = top['score'] * 100
+            label_raw = top['label']
+            label = label_raw.replace('_', ' ').title()
             
-            # THE FIX: FILTER OUT LOW CONFIDENCE IMAGES (e.g., Books)
-            if score_percent < confidence_threshold:
-                st.error("⚠️ INCONCLUSIVE RESULT")
-                st.warning(f"Confidence: {score_percent:.1f}% (Below Threshold of {confidence_threshold}%)")
-                st.write("The AI is not confident this matches a known skin condition.")
-                st.info("💡 **Tip:** This often happens if the image is blurry, dark, or **not a skin lesion** (e.g., an object).")
+            # --- FILTER LOGIC ---
+            if score < confidence_threshold:
+                st.error("⚠️ ANALYSIS INCONCLUSIVE")
+                st.warning(f"Confidence Level: {score:.1f}% (Below required {confidence_threshold}%)")
+                st.markdown("""
+                **Possible reasons for failure:**
+                * Image is blurry or too dark.
+                * Object is NOT a skin lesion (e.g., a book, face, or car).
+                * The lesion is obscured by hair or shadow.
+                """)
             else:
-                # If high confidence, show the full diagnosis with RESTORED DATA
+                # Retrieve Medical Data
                 info = MEDICAL_DB.get(label, {
-                    "severity": "unknown", 
-                    "description": "N/A", 
-                    "causes": "N/A", 
-                    "treatment": "N/A", 
-                    "action": "Consult doctor."
+                    "severity": "low", 
+                    "risk_label": "UNKNOWN",
+                    "description": "Condition not found in database.", 
+                    "symptoms": "Unknown",
+                    "causes": "Unknown", 
+                    "treatment": "Consult a doctor", 
+                    "action": "Consult a doctor"
                 })
                 
-                if info['severity'] == "critical": st.error(f"DETECTION: {label.upper()}")
-                elif info['severity'] == "high": st.warning(f"DETECTION: {label.upper()}")
-                else: st.success(f"DETECTION: {label.upper()}")
+                # --- DISPLAY PRIMARY RESULT ---
+                if info['severity'] == "critical":
+                    st.error(f"🔴 DETECTION: {label.upper()}")
+                elif info['severity'] == "high":
+                    st.warning(f"🟠 DETECTION: {label.upper()}")
+                else:
+                    st.success(f"🟢 DETECTION: {label.upper()}")
+
+                st.write(f"**Risk Assessment:** {info['risk_label']}")
+                st.metric("AI Confidence Probability", f"{score:.2f}%")
                 
-                st.metric("AI Confidence Score", f"{score_percent:.2f}%")
+                st.divider()
                 
-                # --- DETAILED MEDICAL INSIGHTS (RESTORED) ---
-                st.markdown("### 📋 Clinical Insights")
+                # --- DETAILED MEDICAL REPORT ---
+                st.markdown("### 📋 Clinical Breakdown")
                 
-                with st.expander("📖 What is this condition?", expanded=True):
-                    st.write(info['description'])
-                    
-                with st.expander("🧬 Causes & Risk Factors"):
+                with st.expander("📖 Description & Symptoms", expanded=True):
+                    st.write(f"**What is it?** {info['description']}")
+                    st.write(f"**Key Symptoms:** {info['symptoms']}")
+
+                with st.expander("🧬 Etiology (Causes)"):
                     st.write(info['causes'])
                     
-                with st.expander("💊 Standard Treatments & Management"):
+                with st.expander("💊 Medical Treatment & Cure"):
                     st.info(info['treatment'])
-                    
-                with st.expander("🛡️ Recommended Action Plan"):
-                    st.markdown(f"**Status:** {info['severity'].upper()} RISK")
-                    st.write(info['action'])
+
+                # --- ACTION PLAN BOX ---
+                st.markdown(f"""
+                <div style='background-color: #f0f2f6; padding: 15px; border-radius: 10px; border-left: 5px solid #ff4b4b;'>
+                    <strong>RECOMMENDED ACTION PLAN:</strong><br>
+                    {info['action']}
+                </div>
+                """, unsafe_allow_html=True)
                 
-                # Show Chart
+                # --- DIFFERENTIAL DIAGNOSIS CHART ---
                 st.divider()
-                st.caption("Differential Diagnosis Probabilities")
-                chart_data = pd.DataFrame([{"Condition": r['label'].replace('_', ' ').title(), "Prob": r['score']*100} for r in st.session_state['results']])
+                st.subheader("📊 Differential Diagnosis (Top 3)")
+                st.caption("The AI considers these other possibilities:")
+                
+                # Format data for chart
+                chart_data = pd.DataFrame([
+                    {"Condition": r['label'].replace('_', ' ').title(), "Probability (%)": r['score']*100} 
+                    for r in st.session_state['results'][:3] # Top 3 only
+                ])
                 st.bar_chart(chart_data.set_index("Condition"))
         else:
-            st.write("Waiting for upload...")
+            st.info("Upload an image to begin diagnostic analysis.")
 
 # --- TAB 2: DICTIONARY ---
 with tab_dict:
-    st.header("📚 Condition Database")
-    selected = st.selectbox("Select condition:", list(MEDICAL_DB.keys()))
-    data = MEDICAL_DB[selected]
+    st.header("📚 Dermatological Encyclopedia")
+    st.write("Comprehensive medical data on skin pathologies.")
     
-    st.subheader(selected)
-    st.write(f"**Definition:** {data['description']}")
-    st.write(f"**Causes:** {data['causes']}")
-    st.info(f"**Treatment:** {data['treatment']}")
-    st.warning(f"**Action:** {data['action']}")
+    selected_cond = st.selectbox("Select Diagnosis:", list(MEDICAL_DB.keys()))
+    data = MEDICAL_DB[selected_cond]
+    
+    st.subheader(f"📌 {selected_cond}")
+    st.write(f"**Risk Level:** {data['risk_label']}")
+    st.write(f"**Overview:** {data['description']}")
+    
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.markdown("#### 🧬 Causes")
+        st.write(data['causes'])
+    with col_b:
+        st.markdown("#### 💊 Treatment")
+        st.write(data['treatment'])
+        
+    st.warning(f"**Medical Directive:** {data['action']}")
 
 # --- TAB 3: EMERGENCY ---
 with tab_help:
-    st.header("🚑 Find Assistance")
-    st.write("If you received a high-risk result, locate a specialist near you.")
-    if st.button("🔍 Open Google Maps"):
-        webbrowser.open_new_tab("https://www.google.com/maps/search/dermatologists+near+me")
+    st.header("🚑 Specialist Locator")
+    st.write("Locate the nearest Board-Certified Dermatologist.")
+    
+    if st.button("🔍 Find Dermatologist Near Me (Google Maps)"):
+        webbrowser.open_new_tab("https://www.google.com/maps/search/dermatologist+near+me/")
