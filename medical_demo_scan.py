@@ -1,3 +1,10 @@
+# Author: Gulam N Chabbi
+# Project: Skin Cancer Detection using AI
+# Created: (put the month/year you actually started, e.g. Jan 2026)
+# GitHub: gulam89513
+# NOTE: This repository was made public earlier for learning/demo purposes.
+# Unauthorized academic submission or reuse without permission is prohibited.
+
 import streamlit as st
 from transformers import pipeline
 from PIL import Image
@@ -214,4 +221,5 @@ with tab_help:
     st.write("Locate the nearest Board-Certified Dermatologist.")
     if st.button("🔍 Find Dermatologist Near Me (Google Maps)"):
         webbrowser.open_new_tab("http://googleusercontent.com/maps.google.com/search?q=dermatologist+near+me")
+
 
