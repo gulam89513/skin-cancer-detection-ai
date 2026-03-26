@@ -8,39 +8,46 @@ import pandas as pd
 import webbrowser
 
 def set_bg():
-    image_url = "https://plus.unsplash.com/premium_photo-1672759455907-bdaef741cd88?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVkYWljYWx8ZW58MHx8MHx8fDA%3D"
+    image_url = "https://plus.unsplash.com/premium_photo-1672759455907-bdaef741cd88?w=1920"
 
     st.markdown(f"""
     <style>
-    html, body, [class*="css"]  {{
-        background: url("{image_url}") no-repeat center center fixed !important;
-        background-size: cover !important;
-    }}
 
+    /* FULL APP BACKGROUND */
     .stApp {{
-        background: transparent !important;
+        background-image: url("{image_url}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }}
 
-    /* Glass effect */
+    /* REMOVE WHITE DEFAULT BACKGROUND */
+    [data-testid="stAppViewContainer"] {{
+        background: transparent;
+    }}
+
+    /* MAIN CONTENT GLASS EFFECT */
     .block-container {{
-        background: rgba(255, 255, 255, 0.88);
+        background: rgba(255, 255, 255, 0.85);
         padding: 25px;
         border-radius: 15px;
     }}
 
-    /* Sidebar */
+    /* SIDEBAR */
     [data-testid="stSidebar"] {{
-        background: rgba(0,0,0,0.7);
+        background: rgba(0,0,0,0.65);
     }}
+
     </style>
     """, unsafe_allow_html=True)
-
 # --- PAGE CONFIG ---
 st.set_page_config(
     page_title="Skin Disease Detection | Gulam N Chabbi",
     page_icon="⚕️",
     layout="wide"
 )
+set_bg()
 
 # 👉 APPLY BACKGROUND
 set_bg()
