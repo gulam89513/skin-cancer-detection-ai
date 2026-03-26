@@ -7,37 +7,33 @@ from PIL import Image
 import pandas as pd
 import webbrowser
 
-# --- BACKGROUND FUNCTION (ONLINE IMAGE) ---
 def set_bg():
-    image_url = "https://media.istockphoto.com/id/155099359/photo/stethoscope-on-book.webp?a=1&b=1&s=612x612&w=0&k=20&c=odiw1GE1k6lNfKeh1FD65qJCtBTyNdShYmlfG3ST_40="
+    image_url = "https://media.istockphoto.com/id/155099359/photo/stethoscope-on-book.webp"
 
     st.markdown(f"""
     <style>
-
-    .stApp {{
-        background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-                          url("{image_url}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
+    html, body, [class*="css"]  {{
+        background: url("{image_url}") no-repeat center center fixed !important;
+        background-size: cover !important;
     }}
 
-    /* Glass effect for main content */
+    .stApp {{
+        background: transparent !important;
+    }}
+
+    /* Glass effect */
     .block-container {{
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.88);
         padding: 25px;
         border-radius: 15px;
     }}
 
-    /* Sidebar style */
+    /* Sidebar */
     [data-testid="stSidebar"] {{
         background: rgba(0,0,0,0.7);
-        color: white;
     }}
-
     </style>
     """, unsafe_allow_html=True)
-
 
 # --- PAGE CONFIG ---
 st.set_page_config(
