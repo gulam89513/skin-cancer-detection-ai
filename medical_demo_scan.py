@@ -7,47 +7,56 @@ from PIL import Image
 import pandas as pd
 import webbrowser
 
-def set_bg():
-    image_url = "https://plus.unsplash.com/premium_photo-1672759455907-bdaef741cd88?w=1920"
-
-    st.markdown(f"""
+def load_css():
+    st.markdown("""
     <style>
 
-    /* FULL APP BACKGROUND */
-    .stApp {{
-        background-image: url("{image_url}");
+    .stApp {
+        background-image: url("https://plus.unsplash.com/premium_photo-1672759455907-bdaef741cd88?w=1920");
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
         background-attachment: fixed;
-    }}
+    }
 
-    /* REMOVE WHITE DEFAULT BACKGROUND */
-    [data-testid="stAppViewContainer"] {{
-        background: transparent;
-    }}
+    /* DARK OVERLAY (THIS IS THE SECRET 🔥) */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.55);
+        z-index: 0;
+    }
 
-    /* MAIN CONTENT GLASS EFFECT */
-    .block-container {{
-        background: rgba(255, 255, 255, 0.85);
+    /* KEEP CONTENT ABOVE BACKGROUND */
+    .main {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* GLASS EFFECT */
+    .block-container {
+        background: rgba(255,255,255,0.08);
         padding: 25px;
-        border-radius: 15px;
-    }}
+        border-radius: 18px;
+        backdrop-filter: blur(18px);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    /* TEXT WHITE */
+    h1, h2, h3, h4, p, label {
+        color: white !important;
+    }
 
     /* SIDEBAR */
-    [data-testid="stSidebar"] {{
-        background: rgba(0,0,0,0.65);
-    }}
+    section[data-testid="stSidebar"] {
+        background: rgba(0,0,0,0.6);
+    }
 
     </style>
     """, unsafe_allow_html=True)
-# --- PAGE CONFIG ---
-st.set_page_config(
-    page_title="Skin Disease Detection | Gulam N Chabbi",
-    page_icon="⚕️",
-    layout="wide"
-)
-set_bg()
 
 # 👉 APPLY BACKGROUND
 set_bg()
